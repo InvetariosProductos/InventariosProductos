@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|c:\\users\\owner\\downloads\\inventarioproductos\\controllers\\productoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|solutionrelative:controllers\\productoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|c:\\users\\owner\\downloads\\inventarioproductos\\models\\proveedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|solutionrelative:models\\proveedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|c:\\users\\owner\\downloads\\inventarioproductos\\models\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|solutionrelative:models\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|c:\\users\\owner\\downloads\\inventarioproductos\\models\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|solutionrelative:models\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|c:\\users\\owner\\downloads\\inventarioproductos\\migrations\\20250918013219_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FFC4C188-3EBE-4352-B6FC-BF7AD6118088}|InventarioProductos.csproj|solutionrelative:migrations\\20250918013219_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -42,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 715,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,7 +70,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductosController.cs",
+              "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Controllers\\ProductosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductosController.cs",
+              "ToolTip": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Controllers\\ProductosController.cs",
+              "RelativeToolTip": "Controllers\\ProductosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T02:51:39.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Proveedor.cs",
+              "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Models\\Proveedor.cs",
+              "RelativeDocumentMoniker": "Models\\Proveedor.cs",
+              "ToolTip": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Models\\Proveedor.cs",
+              "RelativeToolTip": "Models\\Proveedor.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T02:51:11.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Categoria.cs",
+              "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Models\\Categoria.cs",
+              "RelativeDocumentMoniker": "Models\\Categoria.cs",
+              "ToolTip": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Models\\Categoria.cs",
+              "RelativeToolTip": "Models\\Categoria.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T02:50:50.944Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Producto.cs",
+              "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Models\\Producto.cs",
+              "RelativeDocumentMoniker": "Models\\Producto.cs",
+              "ToolTip": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Models\\Producto.cs",
+              "RelativeToolTip": "Models\\Producto.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAC4AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T02:50:22.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
@@ -62,12 +130,11 @@
               "RelativeToolTip": "Controllers\\HomeController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T16:11:55.749Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T16:11:55.749Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -75,12 +142,11 @@
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T16:11:51.926Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T16:11:51.926Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
@@ -88,12 +154,11 @@
               "RelativeToolTip": "Views\\_ViewImports.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T16:11:48.997Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T16:11:48.997Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -101,25 +166,24 @@
               "RelativeToolTip": "Views\\_ViewStart.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-19T16:11:47.081Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T16:11:47.081Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "20250918013219_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Migrations\\20250918013219_InitialCreate.cs",
               "RelativeDocumentMoniker": "Migrations\\20250918013219_InitialCreate.cs",
               "ToolTip": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Migrations\\20250918013219_InitialCreate.cs",
               "RelativeToolTip": "Migrations\\20250918013219_InitialCreate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T16:07:13.251Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "InventarioDbContextModelSnapshot.cs",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Migrations\\InventarioDbContextModelSnapshot.cs",
               "RelativeDocumentMoniker": "Migrations\\InventarioDbContextModelSnapshot.cs",
@@ -127,12 +191,11 @@
               "RelativeToolTip": "Migrations\\InventarioDbContextModelSnapshot.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T16:07:14.597Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T16:07:14.597Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "InventarioDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Data\\InventarioDbContext.cs",
               "RelativeDocumentMoniker": "Data\\InventarioDbContext.cs",
@@ -140,12 +203,11 @@
               "RelativeToolTip": "Data\\InventarioDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T16:04:32.578Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T16:04:32.578Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "CategoriasController.cs",
               "DocumentMoniker": "C:\\Users\\Owner\\Downloads\\InventarioProductos\\Controllers\\CategoriasController.cs",
               "RelativeDocumentMoniker": "Controllers\\CategoriasController.cs",
@@ -153,8 +215,7 @@
               "RelativeToolTip": "Controllers\\CategoriasController.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T06:10:02.865Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T06:10:02.865Z"
             }
           ]
         }
