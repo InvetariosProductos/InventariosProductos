@@ -20,10 +20,48 @@ namespace InventarioProductos.Controllers
         }
 
         // GET: Productos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? categoriaId, int? proveedorId)
         {
-            var inventarioDbContext = _context.Productos.Include(p => p.Categoria).Include(p => p.Proveedor);
-            return View(await inventarioDbContext.ToListAsync());
+            try
+            {
+                // Query base con relaciones
+                var productosQuery = _context.Productos
+                    .Include(p => p.Categoria)
+                    .Include(p => p.Proveedor)
+                    .AsQueryable();
+
+                // Filtros de búsqueda
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    productosQuery = productosQuery.Where(p =>
+                        p.Nombre.Contains(searchString) ||
+                        p.Codigo.Contains(searchString) ||
+                        (p.Descripcion != null && p.Descripcion.Contains(searchString)));
+                }
+
+                if (categoriaId.HasValue)
+                {
+                    productosQuery = productosQuery.Where(p => p.CategoriaId == categoriaId);
+                }
+
+                if (proveedorId.HasValue)
+                {
+                    productosQuery = productosQuery.Where(p => p.ProveedorId == proveedorId);
+                }
+
+                // ViewData para filtros
+                ViewData["SearchString"] = searchString;
+                ViewData["Categorias"] = new SelectList(await _context.Categorias.Where(c => c.Activa).ToListAsync(), "CategoriaId", "Nombre");
+                ViewData["Proveedores"] = new SelectList(await _context.Proveedores.Where(p => p.Activo).ToListAsync(), "ProveedorId", "Nombre");
+
+                var productos = await productosQuery.OrderBy(p => p.Nombre).ToListAsync();
+                return View(productos);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al cargar los productos: " + ex.Message;
+                return View(new List<Producto>());
+            }
         }
 
         // GET: Productos/Details/5
@@ -31,44 +69,79 @@ namespace InventarioProductos.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "ID de producto no especificado";
+                return RedirectToAction(nameof(Index));
             }
 
-            var producto = await _context.Productos
-                .Include(p => p.Categoria)
-                .Include(p => p.Proveedor)
-                .FirstOrDefaultAsync(m => m.ProductoId == id);
-            if (producto == null)
+            try
             {
-                return NotFound();
-            }
+                var producto = await _context.Productos
+                    .Include(p => p.Categoria)
+                    .Include(p => p.Proveedor)
+                    .FirstOrDefaultAsync(m => m.ProductoId == id);
 
-            return View(producto);
+                if (producto == null)
+                {
+                    TempData["ErrorMessage"] = "Producto no encontrado";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View(producto);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al cargar el producto: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: Productos/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nombre");
-            ViewData["ProveedorId"] = new SelectList(_context.Proveedores, "ProveedorId", "Nombre");
-            return View();
+            try
+            {
+                await CargarSelectLists();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al cargar el formulario: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Productos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductoId,Nombre,Descripcion,Codigo,Precio,Stock,CategoriaId,ProveedorId,FechaCreacion,FechaActualizacion")] Producto producto)
+        public async Task<IActionResult> Create([Bind("Nombre,Descripcion,Codigo,Precio,Stock,CategoriaId,ProveedorId")] Producto producto)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(producto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Validación adicional del lado servidor
+                if (await _context.Productos.AnyAsync(p => p.Codigo == producto.Codigo))
+                {
+                    ModelState.AddModelError("Codigo", "Ya existe un producto con este código");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // Establecer fechas automáticamente
+                    producto.FechaCreacion = DateTime.Now;
+                    producto.FechaActualizacion = null;
+
+                    _context.Add(producto);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Producto creado exitosamente";
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nombre", producto.CategoriaId);
-            ViewData["ProveedorId"] = new SelectList(_context.Proveedores, "ProveedorId", "Nombre", producto.ProveedorId);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al crear el producto: " + ex.Message;
+            }
+
+            await CargarSelectLists(producto.CategoriaId, producto.ProveedorId);
             return View(producto);
         }
 
@@ -77,53 +150,78 @@ namespace InventarioProductos.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "ID de producto no especificado";
+                return RedirectToAction(nameof(Index));
             }
 
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
+            try
             {
-                return NotFound();
+                var producto = await _context.Productos.FindAsync(id);
+                if (producto == null)
+                {
+                    TempData["ErrorMessage"] = "Producto no encontrado";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                await CargarSelectLists(producto.CategoriaId, producto.ProveedorId);
+                return View(producto);
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nombre", producto.CategoriaId);
-            ViewData["ProveedorId"] = new SelectList(_context.Proveedores, "ProveedorId", "Nombre", producto.ProveedorId);
-            return View(producto);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al cargar el producto: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Productos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Nombre,Descripcion,Codigo,Precio,Stock,CategoriaId,ProveedorId,FechaCreacion,FechaActualizacion")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductoId,Nombre,Descripcion,Codigo,Precio,Stock,CategoriaId,ProveedorId,FechaCreacion")] Producto producto)
         {
             if (id != producto.ProductoId)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.ProductoId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                TempData["ErrorMessage"] = "ID de producto no coincide";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nombre", producto.CategoriaId);
-            ViewData["ProveedorId"] = new SelectList(_context.Proveedores, "ProveedorId", "Nombre", producto.ProveedorId);
+
+            try
+            {
+                // Validación adicional: código único excepto para el mismo producto
+                if (await _context.Productos.AnyAsync(p => p.Codigo == producto.Codigo && p.ProductoId != producto.ProductoId))
+                {
+                    ModelState.AddModelError("Codigo", "Ya existe otro producto con este código");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // Actualizar fecha de modificación
+                    producto.FechaActualizacion = DateTime.Now;
+
+                    _context.Update(producto);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Producto actualizado exitosamente";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductoExists(producto.ProductoId))
+                {
+                    TempData["ErrorMessage"] = "El producto ya no existe";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Error de concurrencia. El producto fue modificado por otro usuario";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al actualizar el producto: " + ex.Message;
+            }
+
+            await CargarSelectLists(producto.CategoriaId, producto.ProveedorId);
             return View(producto);
         }
 
@@ -132,19 +230,30 @@ namespace InventarioProductos.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "ID de producto no especificado";
+                return RedirectToAction(nameof(Index));
             }
 
-            var producto = await _context.Productos
-                .Include(p => p.Categoria)
-                .Include(p => p.Proveedor)
-                .FirstOrDefaultAsync(m => m.ProductoId == id);
-            if (producto == null)
+            try
             {
-                return NotFound();
-            }
+                var producto = await _context.Productos
+                    .Include(p => p.Categoria)
+                    .Include(p => p.Proveedor)
+                    .FirstOrDefaultAsync(m => m.ProductoId == id);
 
-            return View(producto);
+                if (producto == null)
+                {
+                    TempData["ErrorMessage"] = "Producto no encontrado";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View(producto);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al cargar el producto: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Productos/Delete/5
@@ -152,19 +261,69 @@ namespace InventarioProductos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto != null)
+            try
             {
+                var producto = await _context.Productos.FindAsync(id);
+                if (producto == null)
+                {
+                    TempData["ErrorMessage"] = "Producto no encontrado";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.Productos.Remove(producto);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Producto eliminado exitosamente";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al eliminar el producto: " + ex.Message;
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        // Método auxiliar para cargar listas desplegables
+        private async Task CargarSelectLists(int? categoriaSeleccionada = null, int? proveedorSeleccionado = null)
+        {
+            ViewData["CategoriaId"] = new SelectList(
+                await _context.Categorias.Where(c => c.Activa).OrderBy(c => c.Nombre).ToListAsync(),
+                "CategoriaId",
+                "Nombre",
+                categoriaSeleccionada);
+
+            ViewData["ProveedorId"] = new SelectList(
+                await _context.Proveedores.Where(p => p.Activo).OrderBy(p => p.Nombre).ToListAsync(),
+                "ProveedorId",
+                "Nombre",
+                proveedorSeleccionado);
         }
 
         private bool ProductoExists(int id)
         {
             return _context.Productos.Any(e => e.ProductoId == id);
+        }
+
+        // Método adicional para obtener productos con stock bajo
+        public async Task<IActionResult> StockBajo(int limite = 10)
+        {
+            try
+            {
+                var productosStockBajo = await _context.Productos
+                    .Include(p => p.Categoria)
+                    .Include(p => p.Proveedor)
+                    .Where(p => p.Stock <= limite)
+                    .OrderBy(p => p.Stock)
+                    .ToListAsync();
+
+                ViewBag.Limite = limite;
+                return View("Index", productosStockBajo);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al obtener productos con stock bajo: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

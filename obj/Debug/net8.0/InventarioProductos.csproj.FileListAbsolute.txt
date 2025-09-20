@@ -572,3 +572,4 @@ C:\Users\Owner\Downloads\InventarioProductos\obj\Debug\net8.0\refint\InventarioP
 C:\Users\Owner\Downloads\InventarioProductos\obj\Debug\net8.0\InventarioProductos.pdb
 C:\Users\Owner\Downloads\InventarioProductos\obj\Debug\net8.0\InventarioProductos.genruntimeconfig.cache
 C:\Users\Owner\Downloads\InventarioProductos\obj\Debug\net8.0\ref\InventarioProductos.dll
+C:\Users\Owner\Downloads\InventarioProductos\obj\Debug\net8.0\InventarioProductos.sourcelink.json
