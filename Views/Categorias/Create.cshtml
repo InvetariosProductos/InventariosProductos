@@ -1,48 +1,223 @@
 ﻿@model InventarioProductos.Models.Categoria
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Editar Categoría";
 }
 
-<h1>Create</h1>
+<div class="container">
+    <!-- Header con breadcrumb -->
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Categorías</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Crear Nueva</li>
+                </ol>
+            </nav>
 
-<h4>Categoria</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="display-5">
+                    <i class="fas fa-plus-circle text-success"></i>
+                    Crear Nueva Categoría
+                </h1>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver al listado
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Mensajes de error -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Formulario principal -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tags"></i> Información de la Categoría
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" id="createForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label required">
+                                <i class="fas fa-tag"></i> @Html.DisplayNameFor(m => m.Nombre)
+                            </label>
+                            <input asp-for="Nombre"
+                                   class="form-control"
+                                   placeholder="Ej: Electrónicos, Ropa, Alimentos..."
+                                   maxlength="100"
+                                   required />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                            <div class="form-text">Máximo 100 caracteres - Debe ser único</div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="mb-3">
+                            <label asp-for="Descripcion" class="form-label">
+                                <i class="fas fa-align-left"></i> @Html.DisplayNameFor(m => m.Descripcion)
+                            </label>
+                            <textarea asp-for="Descripcion"
+                                      class="form-control"
+                                      rows="3"
+                                      maxlength="300"
+                                      placeholder="Descripción detallada de la categoría (opcional)"></textarea>
+                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                            <div class="form-text">Máximo 300 caracteres (opcional)</div>
+                        </div>
+
+                        <!-- Estado activa -->
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" asp-for="Activa" id="activaSwitch" checked>
+                                <label class="form-check-label" for="activaSwitch">
+                                    <i class="fas fa-toggle-on text-success"></i> @Html.DisplayNameFor(m => m.Activa)
+                                </label>
+                            </div>
+                            <div class="form-text">Las categorías activas aparecen en los formularios de productos</div>
+                        </div>
+
+                        <!-- Información adicional -->
+                        <div class="bg-light p-3 rounded mb-4">
+                            <h6><i class="fas fa-info-circle"></i> Información automática:</h6>
+                            <small class="text-muted">
+                                • <strong>Fecha de creación:</strong> Se asignará automáticamente<br>
+                                • <strong>ID de categoría:</strong> Se generará automáticamente<br>
+                                • <strong>Productos asociados:</strong> Inicialmente será 0
+                            </small>
+                        </div>
+
+                        <!-- Botones de acción -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <div>
+                                <button type="reset" class="btn btn-outline-warning me-2">
+                                    <i class="fas fa-undo"></i> Limpiar formulario
+                                </button>
+                                <button type="submit" class="btn btn-success" id="submitBtn">
+                                    <i class="fas fa-save"></i> Crear Categoría
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Activa" /> @Html.DisplayNameFor(model => model.Activa)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaCreacion" class="control-label"></label>
-                <input asp-for="FechaCreacion" class="form-control" />
-                <span asp-validation-for="FechaCreacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Validación en tiempo real
+            $('#createForm').on('submit', function(e) {
+                const submitBtn = $('#submitBtn');
+
+                if ($(this)[0].checkValidity()) {
+                    // Mostrar indicador de carga
+                    submitBtn.prop('disabled', true);
+                    submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Creando...');
+                } else {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                $(this).addClass('was-validated');
+            });
+
+            // Contador de caracteres para descripción
+            $('#Descripcion').on('input', function() {
+                const maxLength = 300;
+                const currentLength = $(this).val().length;
+                const remaining = maxLength - currentLength;
+
+                let text = `${currentLength}/${maxLength} caracteres`;
+                let className = 'form-text';
+
+                if (remaining < 50) {
+                    className = 'form-text text-warning';
+                }
+                if (remaining < 20) {
+                    className = 'form-text text-danger';
+                }
+
+                $(this).siblings('.form-text').attr('class', className).text(text);
+            });
+
+            // Contador de caracteres para nombre
+            $('#Nombre').on('input', function() {
+                const maxLength = 100;
+                const currentLength = $(this).val().length;
+                const remaining = maxLength - currentLength;
+
+                let className = 'form-text';
+                if (remaining < 20) {
+                    className = 'form-text text-warning';
+                }
+                if (remaining < 10) {
+                    className = 'form-text text-danger';
+                }
+
+                $(this).siblings('.form-text').attr('class', className);
+            });
+
+            // Cambiar icono del switch
+            $('#activaSwitch').on('change', function() {
+                const label = $(this).siblings('label');
+                const icon = label.find('i');
+
+                if ($(this).is(':checked')) {
+                    icon.removeClass('fa-toggle-off text-secondary').addClass('fa-toggle-on text-success');
+                } else {
+                    icon.removeClass('fa-toggle-on text-success').addClass('fa-toggle-off text-secondary');
+                }
+            });
+
+            // Auto-ocultar alertas
+            setTimeout(function() {
+                $('.alert').fadeOut();
+            }, 5000);
+        });
+    </script>
+
+    <style>
+        .required:after {
+            content: " *";
+            color: red;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #198754;
+            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+        }
+
+        .form-check-input:checked {
+            background-color: #198754;
+            border-color: #198754;
+        }
+
+        .form-text.text-warning {
+            font-weight: 500;
+        }
+
+        .form-text.text-danger {
+            font-weight: 600;
+        }
+    </style>
 }
