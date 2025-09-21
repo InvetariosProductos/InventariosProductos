@@ -1,46 +1,76 @@
 ﻿@{
-    ViewData["Title"] = "Sistema de Inventario";
+    ViewData["Title"] = "Tablero de Control";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Sistema de Inventario de Productos</h1>
-    <p class="lead">Gestiona tu inventario de manera eficiente</p>
+<div class="container-fluid">
+    <div class="text-center py-5">
+        <h1 class="display-4 fw-bold">
+            <i class="fas fa-cubes text-primary"></i>
+            Sistema de Inventario
+        </h1>
+        <p class="lead text-muted mt-3">
+            Bienvenido al panel de control. Gestiona tu inventario, productos y categorías de manera eficiente.
+        </p>
+    </div>
 
-    <div class="row mt-5">
+    <div class="row justify-content-center g-4 mt-4">
+
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fas fa-boxes"></i> Productos
-                    </h5>
-                    <p class="card-text">Administra tu catálogo de productos</p>
-                    <a href="@Url.Action("Index", "Productos")" class="btn btn-primary">Ver Productos</a>
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-boxes fa-4x text-info mb-3"></i>
+                    <h5 class="card-title fw-bold">Productos</h5>
+                    <p class="card-text text-muted">
+                        Administra y consulta todo el catálogo de productos disponibles en el sistema.
+                    </p>
+                    <a asp-controller="Productos" asp-action="Index" class="btn btn-outline-info w-75">
+                        <i class="fas fa-arrow-right"></i> Ir a Productos
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fas fa-tags"></i> Categorías
-                    </h5>
-                    <p class="card-text">Organiza productos por categorías</p>
-                    <a href="@Url.Action("Index", "Categorias")" class="btn btn-success">Ver Categorías</a>
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-tags fa-4x text-success mb-3"></i>
+                    <h5 class="card-title fw-bold">Categorías</h5>
+                    <p class="card-text text-muted">
+                        Organiza tus productos en categorías para una gestión más ordenada y fácil.
+                    </p>
+                    <a asp-controller="Categorias" asp-action="Index" class="btn btn-outline-success w-75">
+                        <i class="fas fa-arrow-right"></i> Ir a Categorías
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fas fa-truck"></i> Proveedores
-                    </h5>
-                    <p class="card-text">Gestiona tus proveedores</p>
-                    <a href="@Url.Action("Index", "Proveedores")" class="btn btn-info">Ver Proveedores</a>
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-truck-moving fa-4x text-warning mb-3"></i>
+                    <h5 class="card-title fw-bold">Proveedores</h5>
+                    <p class="card-text text-muted">
+                        Mantén un registro de tus proveedores para llevar un mejor control de compras.
+                    </p>
+                    <a asp-controller="Proveedores" asp-action="Index" class="btn btn-outline-warning w-75">
+                        <i class="fas fa-arrow-right"></i> Ir a Proveedores
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <style>
+        .card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            }
+    </style>
+}
