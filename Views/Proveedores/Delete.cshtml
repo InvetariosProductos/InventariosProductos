@@ -1,63 +1,168 @@
 ﻿@model InventarioProductos.Models.Proveedor
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Proveedor";
 }
 
-<h1>Delete</h1>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Proveedores</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Eliminar</li>
+                </ol>
+            </nav>
+            <h1 class="display-5 text-danger">
+                <i class="fas fa-trash-alt"></i> Eliminar Proveedor
+            </h1>
+        </div>
+    </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Proveedor</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contacto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contacto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Direccion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Activo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Activo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ProveedorId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong>¿Está seguro de que desea eliminar este proveedor?</strong>
+        Esta acción es irreversible.
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-truck-moving"></i> Detalles del Proveedor
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-id-card-alt"></i> ID Proveedor
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ProveedorId)
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-building"></i> @Html.DisplayNameFor(model => model.Nombre)
+                        </dt>
+                        <dd class="col-sm-8">
+                            <strong>@Html.DisplayFor(model => model.Nombre)</strong>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-user-circle"></i> @Html.DisplayNameFor(model => model.Contacto)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.Contacto))
+                            {
+                                @Html.DisplayFor(model => model.Contacto)
+                            }
+                            else
+                            {
+                                <small class="text-muted fst-italic">Sin contacto</small>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-phone"></i> @Html.DisplayNameFor(model => model.Telefono)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.Telefono))
+                            {
+                                @Html.DisplayFor(model => model.Telefono)
+                            }
+                            else
+                            {
+                                <small class="text-muted fst-italic">Sin teléfono</small>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-envelope"></i> @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                @Html.DisplayFor(model => model.Email)
+                            }
+                            else
+                            {
+                                <small class="text-muted fst-italic">Sin email</small>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-map-marker-alt"></i> @Html.DisplayNameFor(model => model.Direccion)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.Direccion))
+                            {
+                                @Html.DisplayFor(model => model.Direccion)
+                            }
+                            else
+                            {
+                                <small class="text-muted fst-italic">Sin dirección</small>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-toggle-on"></i> @Html.DisplayNameFor(model => model.Activo)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (Model.Activo)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check"></i> Activo
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-times"></i> Inactivo
+                                </span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-cubes"></i> Productos asociados
+                        </dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-primary">@(Model.Productos?.Count ?? 0)</span>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-calendar-alt"></i> @Html.DisplayNameFor(model => model.FechaRegistro)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Model.FechaRegistro.ToString("dd/MM/yyyy")
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <form asp-action="Delete" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="ProveedorId" />
+                        @if (Model.Productos?.Count > 0)
+                        {
+                            <button type="button" class="btn btn-danger" disabled>
+                                <i class="fas fa-ban"></i> No se puede eliminar
+                            </button>
+                            <div class="form-text text-danger mt-2">
+                                Este proveedor tiene productos asociados y no se puede eliminar. Considere desactivarlo.
+                            </div>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Confirmar Eliminación
+                            </button>
+                        }
+                    </form>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Cancelar y volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
