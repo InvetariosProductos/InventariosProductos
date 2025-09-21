@@ -1,74 +1,285 @@
 ﻿@model InventarioProductos.Models.Producto
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Producto";
 }
 
-<h1>Edit</h1>
+<div class="container">
+    <!-- Header con breadcrumb -->
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Productos</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.ProductoId">@Model.Nombre</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+                </ol>
+            </nav>
 
-<h4>Producto</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProductoId" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="display-5">
+                    <i class="fas fa-edit text-primary"></i>
+                    Editar Producto
+                </h1>
+                <div class="btn-group">
+                    <a asp-action="Details" asp-route-id="@Model.ProductoId" class="btn btn-outline-info">
+                        <i class="fas fa-eye"></i> Ver detalles
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver al listado
+                    </a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Mensajes de error -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Información del producto actual -->
+    <div class="row mb-3">
+        <div class="col">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>Editando:</strong> @Model.Nombre
+                <span class="badge bg-secondary ms-2">@Model.Codigo</span>
+                <small class="d-block mt-1">
+                    Creado: @Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")
+                    @if (Model.FechaActualizacion.HasValue)
+                    {
+                        <span>| Última actualización: @Model.FechaActualizacion.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                    }
+                </small>
             </div>
-            <div class="form-group">
-                <label asp-for="Codigo" class="control-label"></label>
-                <input asp-for="Codigo" class="form-control" />
-                <span asp-validation-for="Codigo" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Formulario principal -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit"></i> Modificar Información del Producto
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" id="editForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <!-- Campos hidden necesarios -->
+                        <input asp-for="ProductoId" type="hidden" />
+                        <input asp-for="FechaCreacion" type="hidden" />
+
+                        <div class="row">
+                            <!-- Columna izquierda -->
+                            <div class="col-md-6">
+                                <!-- Nombre -->
+                                <div class="mb-3">
+                                    <label asp-for="Nombre" class="form-label required">
+                                        <i class="fas fa-tag"></i> @Html.DisplayNameFor(m => m.Nombre)
+                                    </label>
+                                    <input asp-for="Nombre"
+                                           class="form-control"
+                                           placeholder="Ej: Laptop Dell Inspiron"
+                                           maxlength="100"
+                                           required />
+                                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                                    <div class="form-text">Máximo 100 caracteres</div>
+                                </div>
+
+                                <!-- Código -->
+                                <div class="mb-3">
+                                    <label asp-for="Codigo" class="form-label required">
+                                        <i class="fas fa-barcode"></i> @Html.DisplayNameFor(m => m.Codigo)
+                                    </label>
+                                    <input asp-for="Codigo"
+                                           class="form-control"
+                                           placeholder="Ej: PROD001"
+                                           maxlength="50"
+                                           style="font-family: 'Courier New', monospace;"
+                                           required />
+                                    <span asp-validation-for="Codigo" class="text-danger"></span>
+                                    <div class="form-text">Código único del producto (máximo 50 caracteres)</div>
+                                </div>
+
+                                <!-- Precio -->
+                                <div class="mb-3">
+                                    <label asp-for="Precio" class="form-label required">
+                                        <i class="fas fa-dollar-sign"></i> @Html.DisplayNameFor(m => m.Precio)
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="Precio"
+                                               class="form-control"
+                                               type="number"
+                                               step="0.01"
+                                               min="0.01"
+                                               placeholder="0.00"
+                                               required />
+                                    </div>
+                                    <span asp-validation-for="Precio" class="text-danger"></span>
+                                    <div class="form-text">Precio debe ser mayor a $0.01</div>
+                                </div>
+
+                                <!-- Stock -->
+                                <div class="mb-3">
+                                    <label asp-for="Stock" class="form-label required">
+                                        <i class="fas fa-warehouse"></i> @Html.DisplayNameFor(m => m.Stock)
+                                    </label>
+                                    <input asp-for="Stock"
+                                           class="form-control"
+                                           type="number"
+                                           min="0"
+                                           placeholder="0"
+                                           required />
+                                    <span asp-validation-for="Stock" class="text-danger"></span>
+                                    <div class="form-text">Cantidad disponible en inventario</div>
+                                </div>
+                            </div>
+
+                            <!-- Columna derecha -->
+                            <div class="col-md-6">
+                                <!-- Descripción -->
+                                <div class="mb-3">
+                                    <label asp-for="Descripcion" class="form-label">
+                                        <i class="fas fa-align-left"></i> @Html.DisplayNameFor(m => m.Descripcion)
+                                    </label>
+                                    <textarea asp-for="Descripcion"
+                                              class="form-control"
+                                              rows="3"
+                                              maxlength="500"
+                                              placeholder="Descripción detallada del producto (opcional)"></textarea>
+                                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                                    <div class="form-text">Máximo 500 caracteres (opcional)</div>
+                                </div>
+
+                                <!-- Categoría -->
+                                <div class="mb-3">
+                                    <label asp-for="CategoriaId" class="form-label required">
+                                        <i class="fas fa-folder"></i> @Html.DisplayNameFor(m => m.CategoriaId)
+                                    </label>
+                                    <select asp-for="CategoriaId" class="form-select" required>
+                                        <option value="">-- Seleccionar categoría --</option>
+                                    </select>
+                                    <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                                    <div class="form-text">
+                                        Actual: <strong>@Model.Categoria?.Nombre</strong>
+                                    </div>
+                                </div>
+
+                                <!-- Proveedor -->
+                                <div class="mb-3">
+                                    <label asp-for="ProveedorId" class="form-label required">
+                                        <i class="fas fa-truck"></i> @Html.DisplayNameFor(m => m.ProveedorId)
+                                    </label>
+                                    <select asp-for="ProveedorId" class="form-select" required>
+                                        <option value="">-- Seleccionar proveedor --</option>
+                                    </select>
+                                    <span asp-validation-for="ProveedorId" class="text-danger"></span>
+                                    <div class="form-text">
+                                        Actual: <strong>@Model.Proveedor?.Nombre</strong>
+                                    </div>
+                                </div>
+
+                                <!-- Información de cambios -->
+                                <div class="mb-3">
+                                    <div class="bg-light p-3 rounded">
+                                        <h6><i class="fas fa-history"></i> Información de cambios:</h6>
+                                        <small class="text-muted">
+                                            <strong>Creado:</strong> @Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")<br>
+                                            @if (Model.FechaActualizacion.HasValue)
+                                            {
+                                                <strong>Última actualización:</strong>
+                                                @Model.FechaActualizacion.Value.ToString("dd/MM/yyyy HH:mm")
+                                            
+                                                <br>
+                                            }
+                                            <strong>Al guardar:</strong> Se actualizará automáticamente
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de acción -->
+                        <hr class="my-4">
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-flex justify-content-between">
+                                    <div class="btn-group">
+                                        <a asp-action="Index" class="btn btn-secondary">
+                                            <i class="fas fa-times"></i> Cancelar
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@Model.ProductoId" class="btn btn-outline-info">
+                                            <i class="fas fa-eye"></i> Ver detalles
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <button type="reset" class="btn btn-outline-warning me-2">
+                                            <i class="fas fa-undo"></i> Restaurar valores
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                                            <i class="fas fa-save"></i> Guardar Cambios
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Precio" class="control-label"></label>
-                <input asp-for="Precio" class="form-control" />
-                <span asp-validation-for="Precio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stock" class="control-label"></label>
-                <input asp-for="Stock" class="form-control" />
-                <span asp-validation-for="Stock" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoriaId" class="control-label"></label>
-                <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
-                <span asp-validation-for="CategoriaId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProveedorId" class="control-label"></label>
-                <select asp-for="ProveedorId" class="form-control" asp-items="ViewBag.ProveedorId"></select>
-                <span asp-validation-for="ProveedorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaCreacion" class="control-label"></label>
-                <input asp-for="FechaCreacion" class="form-control" />
-                <span asp-validation-for="FechaCreacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaActualizacion" class="control-label"></label>
-                <input asp-for="FechaActualizacion" class="form-control" />
-                <span asp-validation-for="FechaActualizacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Validación en tiempo real
+            $('#editForm').on('submit', function(e) {
+                const submitBtn = $('#submitBtn');
+
+                if ($(this)[0].checkValidity()) {
+                    submitBtn.prop('disabled', true);
+                    submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
+                } else {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                $(this).addClass('was-validated');
+            });
+
+            // Contador de caracteres para descripción
+            $('#Descripcion').on('input', function() {
+                const maxLength = 500;
+                const currentLength = $(this).val().length;
+
+                let text = currentLength + '/' + maxLength + ' caracteres';
+                $(this).siblings('.form-text').text(text);
+            });
+
+            // Formato automático para código
+            $('#Codigo').on('input', function() {
+                $(this).val($(this).val().toUpperCase());
+            });
+        });
+    </script>
+
+    <style>
+        .required::after {
+            content: " *";
+            color: #dc3545;
+        }
+    </style>
 }
