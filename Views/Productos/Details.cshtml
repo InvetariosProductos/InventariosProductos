@@ -1,72 +1,74 @@
 ﻿@model InventarioProductos.Models.Producto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Producto";
 }
 
-<h1>Details</h1>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h2 class="card-title mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Detalles del Producto
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nombre)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
 
-<div>
-    <h4>Producto</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Codigo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Codigo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Precio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaCreacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaCreacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaActualizacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaActualizacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categoria)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categoria.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Proveedor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Proveedor.Nombre)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ProductoId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Descripcion)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Descripcion)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Codigo)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Codigo)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Precio)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Precio)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Stock)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Stock)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Activo)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Activo)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Categoria)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Categoria.Nombre)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Proveedor)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Proveedor.Nombre)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FechaCreacion)</dt>
+                        <dd class="col-sm-8">
+                            @Model.FechaCreacion.ToString("dd/MM/yyyy")
+                        </dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FechaActualizacion)</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.FechaActualizacion.HasValue)
+                            {
+                                @Model.FechaActualizacion.Value.ToString("dd/MM/yyyy")
+                            }
+                            else
+                            {
+                                <span>No disponible</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <a asp-action="Edit" asp-route-id="@Model?.ProductoId" class="btn btn-primary me-2">
+                        <i class="fas fa-edit me-1"></i>
+                        Editar
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        Volver a la Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
