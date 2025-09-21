@@ -98,6 +98,7 @@ namespace InventarioProductos.Controllers
         // GET: Productos/Create
         public async Task<IActionResult> Create()
         {
+            Console.WriteLine("Entró al método Create GET");
             try
             {
                 await CargarSelectLists();
@@ -117,23 +118,25 @@ namespace InventarioProductos.Controllers
         {
             try
             {
-                // Validación adicional del lado servidor
+                // Verifica si ya existe un producto con el mismo código
                 if (await _context.Productos.AnyAsync(p => p.Codigo == producto.Codigo))
                 {
                     ModelState.AddModelError("Codigo", "Ya existe un producto con este código");
                 }
 
+                // Comprueba si el modelo es válido
                 if (ModelState.IsValid)
                 {
-                    // Establecer fechas automáticamente
+                    // Asigna fechas de creación y actualización
                     producto.FechaCreacion = DateTime.Now;
                     producto.FechaActualizacion = null;
 
+                    // Añade el producto a la base de datos
                     _context.Add(producto);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = "Producto creado exitosamente";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index)); // Redirige a la lista de productos
                 }
             }
             catch (Exception ex)
@@ -141,6 +144,7 @@ namespace InventarioProductos.Controllers
                 TempData["ErrorMessage"] = "Error al crear el producto: " + ex.Message;
             }
 
+            // Si hay errores, recarga las listas desplegables y vuelve a mostrar la vista
             await CargarSelectLists(producto.CategoriaId, producto.ProveedorId);
             return View(producto);
         }
@@ -186,7 +190,6 @@ namespace InventarioProductos.Controllers
 
             try
             {
-                // Validación adicional: código único excepto para el mismo producto
                 if (await _context.Productos.AnyAsync(p => p.Codigo == producto.Codigo && p.ProductoId != producto.ProductoId))
                 {
                     ModelState.AddModelError("Codigo", "Ya existe otro producto con este código");
@@ -194,7 +197,6 @@ namespace InventarioProductos.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    // Actualizar fecha de modificación
                     producto.FechaActualizacion = DateTime.Now;
 
                     _context.Update(producto);
@@ -288,15 +290,11 @@ namespace InventarioProductos.Controllers
         {
             ViewData["CategoriaId"] = new SelectList(
                 await _context.Categorias.Where(c => c.Activa).OrderBy(c => c.Nombre).ToListAsync(),
-                "CategoriaId",
-                "Nombre",
-                categoriaSeleccionada);
+                "CategoriaId", "Nombre", categoriaSeleccionada);
 
             ViewData["ProveedorId"] = new SelectList(
                 await _context.Proveedores.Where(p => p.Activo).OrderBy(p => p.Nombre).ToListAsync(),
-                "ProveedorId",
-                "Nombre",
-                proveedorSeleccionado);
+                "ProveedorId", "Nombre", proveedorSeleccionado);
         }
 
         private bool ProductoExists(int id)
