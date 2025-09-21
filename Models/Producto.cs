@@ -33,6 +33,10 @@ namespace InventarioProductos.Models
         [Display(Name = "Cantidad en Stock")]
         public int Stock { get; set; }
 
+        // Propiedad agregada para solucionar el error CS1061
+        [Display(Name = "Activo")]
+        public bool Activo { get; set; }
+
         [Required(ErrorMessage = "La categoría es obligatoria")]
         [Display(Name = "Categoría")]
         public int CategoriaId { get; set; }
