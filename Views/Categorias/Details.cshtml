@@ -1,42 +1,111 @@
 ﻿@model InventarioProductos.Models.Categoria
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de Categoría";
 }
 
-<h1>Details</h1>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Categorías</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+                </ol>
+            </nav>
 
-<div>
-    <h4>Categoria</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Activa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Activa)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaCreacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaCreacion)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.CategoriaId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="display-5">
+                    <i class="fas fa-info-circle text-info"></i>
+                    Detalles de Categoría
+                </h1>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver al listado
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tags"></i> Información de la Categoría
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-id-card-alt"></i> @Html.DisplayNameFor(model => model.CategoriaId)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.CategoriaId)
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-tag"></i> @Html.DisplayNameFor(model => model.Nombre)
+                        </dt>
+                        <dd class="col-sm-8">
+                            <strong>@Html.DisplayFor(model => model.Nombre)</strong>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-align-left"></i> @Html.DisplayNameFor(model => model.Descripcion)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.Descripcion))
+                            {
+                                @Html.DisplayFor(model => model.Descripcion)
+                            }
+                            else
+                            {
+                                <small class="text-muted fst-italic">Sin descripción</small>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-cubes"></i> Productos asociados
+                        </dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-primary">@(Model.Productos?.Count ?? 0)</span>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-toggle-on"></i> @Html.DisplayNameFor(model => model.Activa)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (Model.Activa)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check"></i> Activa
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-times"></i> Inactiva
+                                </span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="fas fa-calendar-alt"></i> @Html.DisplayNameFor(model => model.FechaCreacion)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Model.FechaCreacion.ToString("dd/MM/yyyy")
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a asp-action="Edit" asp-route-id="@Model.CategoriaId" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
