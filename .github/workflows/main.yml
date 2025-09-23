@@ -3,7 +3,7 @@ name: Despliegue a Azure con CI/CD
 on:
   push:
     branches:
-      - master # Rama que dispara el despliegue automático
+      - master # La rama que se usa para el despliegue automático.
 
 env:
   AZURE_WEBAPP_NAME: 'app-inventario-udb'
@@ -14,29 +14,26 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
     - name: Configurar .NET Core
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
-    - name: Restaurar dependencias
-      run: dotnet restore
-    
-    - name: Compilar en Release
-      run: dotnet build --configuration Release --no-restore
-    
-    - name: Publicar aplicación
-      run: dotnet publish --configuration Release --output ./publish
-    
-    - name: Login en Azure
+    - name: Restaurar, compilar y publicar la aplicación
+      run: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+        dotnet publish --configuration Release --output .
+      
+    - name: 'Login en Azure'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Desplegar a Azure Web App
+
+    - name: 'Desplegar a Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        package: ./publish
+        package: '.'
