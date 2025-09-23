@@ -27,12 +27,15 @@ jobs:
         dotnet build --configuration Release --no-restore
         dotnet publish --configuration Release --output ./publish
       
-    - name: 'Login en Azure'
+    - name: Login en Azure
       uses: azure/login@v1.5.1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: 'Desplegar a Azure Web App'
+    - name: Verificar login en Azure
+      run: az account show
+
+    - name: Desplegar a Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
