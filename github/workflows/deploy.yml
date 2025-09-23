@@ -1,0 +1,41 @@
+name: Despliegue a Azure con CI/CD
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  AZURE_WEBAPP_NAME: 'app-inventario-udb'
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configurar .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Instalar y compilar
+      run: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+    
+    - name: Publicar aplicación
+      run: dotnet publish --configuration Release --output .
+      
+    - name: 'Login en Azure'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Desplegar a Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: '.'
