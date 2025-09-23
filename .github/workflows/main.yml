@@ -3,7 +3,7 @@ name: Despliegue a Azure con CI/CD
 on:
   push:
     branches:
-      - main # La rama que se usa para el despliegue automático.
+      - master # La rama que se usa para el despliegue automático.
 
 env:
   AZURE_WEBAPP_NAME: 'app-inventario-udb'
