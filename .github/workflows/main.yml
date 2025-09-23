@@ -3,7 +3,7 @@ name: Despliegue a Azure con CI/CD
 on:
   push:
     branches:
-      - master # La rama que se usa para el despliegue automático.
+      - master
 
 env:
   AZURE_WEBAPP_NAME: 'app-inventario-udb'
@@ -25,10 +25,10 @@ jobs:
       run: |
         dotnet restore
         dotnet build --configuration Release --no-restore
-        dotnet publish --configuration Release --output .
+        dotnet publish --configuration Release --output ./publish
       
     - name: 'Login en Azure'
-      uses: azure/login@v1
+      uses: azure/login@v1.5.1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -36,4 +36,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        package: '.'
+        package: './publish'
