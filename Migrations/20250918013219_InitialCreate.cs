@@ -110,3 +110,5 @@ namespace InventarioProductos.Migrations
         }
     }
 }
+
+// Migración inicial de base de datos para sistema de gestión de inventario con tablas de productos, categorías y proveedores
