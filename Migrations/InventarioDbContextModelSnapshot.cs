@@ -174,3 +174,5 @@ namespace InventarioProductos.Migrations
         }
     }
 }
+
+// Agrega snapshot del modelo de base de datos para Entity Framework
