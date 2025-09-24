@@ -37,3 +37,4 @@ namespace InventarioProductos.Data
         }
     }
 }
+// Crea contexto de base de datos con configuración de entidades y relaciones
